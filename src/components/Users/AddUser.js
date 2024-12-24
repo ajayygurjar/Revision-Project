@@ -6,30 +6,40 @@ import "./AddUser.css";
 const AddUser = () => {
   const [enteredUsername, setEnteredUsername] = useState("");
   const [enteredAge, setEnteredAge] = useState("");
-  const clickOnAge = (event) => {
-    setEnteredAge(event.target.value);
-  };
-  const clickOnUsername = (event) => {
+
+  const usernameChangeHandler = (event) => {
     setEnteredUsername(event.target.value);
+  };
+
+  const ageChangeHandler = (event) => {
+    setEnteredAge(event.target.value);
   };
 
   const addUserHandler = (event) => {
     event.preventDefault();
-    console.log(enteredUsername, enteredAge);
-    setEnteredAge("");
+    // logic for validation
+    if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0) {
+      return;
+    }
+
+    if (+enteredAge <= 0) {
+      return;
+    }
+    console.log("Username:", enteredUsername, "Age:", enteredAge);
+
     setEnteredUsername("");
+    setEnteredAge("");
   };
 
   return (
     <Card className="input">
       <form onSubmit={addUserHandler}>
         <label htmlFor="username">Username</label>
-
         <input
           id="username"
           type="text"
           value={enteredUsername}
-          onChange={clickOnUsername}
+          onChange={usernameChangeHandler}
         />
 
         <label htmlFor="age">Age</label>
@@ -37,8 +47,9 @@ const AddUser = () => {
           id="age"
           type="number"
           value={enteredAge}
-          onChange={clickOnAge}
+          onChange={ageChangeHandler}
         />
+
         <Button type="submit">Add User</Button>
       </form>
     </Card>
